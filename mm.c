@@ -147,17 +147,17 @@ int mm_init(void)
     return 0;
 }
 
-void *mem_sbrk(int incr) {
-    char *old_brk = mem_brk;
-
-    if ( (incr < 0) || ( (mem_brk + incr) > mem_max_addr) ) {
-      //errno = mem_brk;
-      fprintf(stderr, "ERROR: mem_sbrk failed. Ran out of memory.\n");
-      return (void *)-1;
-    }
-    mem_brk += incr;
-    return (void *)old_brk;
-}
+//void *mem_sbrk(int incr) {
+//    char *old_brk = mem_brk;
+//
+//    if ( (incr < 0) || ( (mem_brk + incr) > mem_max_addr) ) {
+//      //errno = mem_brk;
+//      fprintf(stderr, "ERROR: mem_sbrk failed. Ran out of memory.\n");
+//      return (void *)-1;
+//    }
+//    mem_brk += incr;
+//    return (void *)old_brk;
+//}
 /* 
  * mm_malloc - Allocate a block by incrementing the brk pointer.
  *     Always allocate a block whose size is a multiple of the alignment.
