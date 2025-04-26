@@ -7,6 +7,19 @@
 #include "mm.h"
 #include "memlib.h"
 
+team_t team = {
+    /* Team name */
+    "ateam",
+    /* First member's full name */
+    "Harry Bovik",
+    /* First member's email address */
+    "bovik@cs.cmu.edu",
+    /* Second member's full name (leave blank if none) */
+    "",
+    /* Second member's email address (leave blank if none) */
+    ""
+};
+
 /* 단일 워드(4바이트) 또는 더블 워드(8바이트) 정렬 기준 */
 #define ALIGNMENT 8
 
@@ -213,4 +226,23 @@ void mm_free(void *bp)
     PUT(HDRP(bp), PACK(size, 0));
     PUT(FTRP(bp), PACK(size, 0));
     coalesce(bp);
+}
+
+void *mm_realloc(void *ptr, size_t size)
+{
+    void *oldptr = ptr;      // 기존 블록 포인터
+    void *newptr;            // 새로 할당할 블록 포인터
+    size_t copySize;         // 복사할 데이터 크기
+
+    newptr = mm_malloc(size); // 새로운 크기로 할당 시도
+    if (newptr == NULL)
+        return NULL;
+
+    // 이전 블록의 크기를 얻어서 복사할 크기를 결정
+    copySize = *(size_t *)((char *)oldptr - SIZE_T_SIZE);
+    if (size < copySize)
+        copySize = size;
+    memcpy(newptr, oldptr, copySize); // 데이터 복사
+    mm_free(oldptr);                  // 기존 블록 해제
+    return newptr;
 }
