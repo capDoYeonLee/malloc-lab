@@ -71,7 +71,7 @@ team_t team = {
 static char *mem_heap;
 static char *mem_brk;
 static char *mem_max_addr;
-void *heap_listp;
+static char *heap_listp = NULL;
 /* 
  * mm_init - initialize the malloc package.
  */
